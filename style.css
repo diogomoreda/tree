@@ -1,0 +1,326 @@
+html, html body {
+    box-sizing: border-box;
+    display: block;
+    width: 100%;
+    min-height: 100vh;
+    padding: 0;
+    margin: 0;
+    border: none;
+}
+
+
+/**********************************************************
+
+    Tree
+
+**********************************************************/
+.tree-wrapper, .tree-wrapper * {
+    box-sizing: border-box;
+    font-size: 0;
+    line-height: 0;
+}
+
+.tree-wrapper {
+    display: block;
+    width: auto;
+    max-width: 320px;
+    height: 100vh;
+    padding: 8px;
+    overflow: auto;
+    border: 1px solid #bcbcbc;
+} 
+
+.tree-wrapper .tree {
+    display: block;
+}
+
+.tree-wrapper ul {
+    display: block;
+    list-style-type: none;
+    padding-left: 26px;
+}
+.tree-wrapper > .tree > ul {
+    padding-left: 0;
+}
+
+.tree-wrapper li {
+    display: block;
+}
+
+/**********************************************************
+
+    Node
+
+**********************************************************/
+.tree-wrapper .node {
+
+}
+
+.tree-wrapper .node > div {
+    display: inline-block;
+    width: auto;
+    min-width: 100%; 
+}
+
+.tree-wrapper .node > div > .node-children {
+    height: auto;
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    overflow: hidden;
+}
+.tree-wrapper .node.open > div > .node-children {
+    max-height: unset;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+/**********************************************************
+
+    Node Face
+
+**********************************************************/
+.tree-wrapper .node .node-face {
+    height: 28px; /** <-- sets the height of all nodes **/
+    position: relative;
+    min-width: 0;
+    padding: 0;
+    overflow: hidden;
+    display: inline-block;
+    width: auto;
+    vertical-align: middle;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.tree-wrapper .node .node-face button {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    border: none;
+    background-color: transparent;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: left;
+}
+
+.tree-wrapper .node .node-face button.node-icon-button {
+    width: 32px;
+    min-width: 32px;
+    text-align: center;
+}
+
+.tree-wrapper .node .node-face button.node-label-button {
+    min-width: 12px;
+    padding-right: 12px;
+    overflow: hidden;
+    text-align: left;
+}
+
+.tree-wrapper .node .node-face .node-label,
+.tree-wrapper .node .node-face .node-label-editor {
+    display: inline-block;
+    width: auto;
+    max-width: 100%;
+    font-size: 12px;
+    line-height: 16px;
+    font-family: Arial, Helvetica, sans-serif;
+    white-space: nowrap;
+}
+.tree-wrapper .node .node-face .node-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tree-wrapper .node .node-face .node-label-editor {
+    display: none;
+}
+
+.tree-wrapper .node:not(.disabled) > div > .node-face button:hover { cursor: pointer; }
+.tree-wrapper .node:not(.disabled).selected > div > .node-face button:hover { cursor: pointer; }
+.tree-wrapper .node.disabled > div > .node-face button:hover { cursor: not-allowed; }
+
+/* NODE MODIFIERS - HIDDEN */
+.tree-wrapper .node.hidden {
+    display: none;
+}
+/* NODE MODIFIERS - FADED */
+.tree-wrapper .node.faded .node-face {
+    opacity: 0.6;
+}
+/* NODE MODIFIERS - SELECTED */
+.tree-wrapper .node.selected > div > .node-face {
+    background-color: #e0e0e0;
+}
+/* NODE MODIFIERS - HIGHLIGHTED */
+.tree-wrapper .node.highlighted > div > .node-face:before {
+    content:"";
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border: 1px dotted #ccc;
+}
+/* NODE MODIFIERS - EDIT */
+.tree-wrapper .node.edit > div > .node-face > .node-icon-button,
+.tree-wrapper .node.edit > div > .node-face > .node-label-button {
+    pointer-events: none;
+}
+.tree-wrapper .node.edit > div > .node-face > .node-label-button input {
+    pointer-events: initial;
+}
+.tree-wrapper .node.edit > div > .node-face > .node-label-button .node-label {
+    display: none;
+}
+.tree-wrapper .node.edit > div > .node-face > .node-label-button .node-label-editor {
+    display: inline-block;
+    border: none;
+    outline: none;
+}
+
+/**********************************************************
+
+    Node Face - ICONS
+
+**********************************************************/
+
+/** ICONS - file **/
+.tree-wrapper .icon-file {
+    box-sizing: border-box;
+    position: relative;
+    display: inline-block;
+    width: 12px;
+    height: 16px;
+    margin: 0 2px;
+    border: 1px solid #444;
+    background-color: #fff;
+}
+.tree-wrapper .icon-file:before,
+.tree-wrapper .icon-file:after {
+    box-sizing: border-box;
+    content: "";
+    display: block;
+    position: absolute;
+}
+.tree-wrapper .icon-file:before {
+    left: -1px;
+    top: -1px;
+    width: 3px;
+    height: 3px;
+    background-color: #fff;
+    border-left: 1px solid #fff;
+    border-top: 1px solid #fff;
+    border-right: 1px solid #444;
+    border-bottom: 1px solid #444;
+}
+.tree-wrapper .icon-file:after {
+    display: none;
+    width: 0px;
+    height: 6px;
+    border-left: 1px solid #444;
+    left: 1px;
+    top: -1px;
+    transform: rotate(45deg);
+}
+
+/** ICONS - folder **/
+.tree-wrapper .icon-folder {
+    box-sizing: border-box;
+    position: relative;
+    display: inline-block;
+    width: 16px;
+    height: 12px;
+    margin: 2px 0;
+    border: 1px solid #444;
+    background-color: #fff;
+}
+.tree-wrapper .icon-folder:before,
+.tree-wrapper .icon-folder:after {
+    box-sizing: border-box;
+    content: "";
+    display: block;
+    position: absolute;
+}
+.tree-wrapper .icon-folder:before {
+    left: -1px;
+    top: -2px;
+    width: 6px;
+    height: 2px;
+    border-top-left-radius: 1px;
+    border-top-right-radius: 1px;
+    background-color: #fff;
+    border-left: 1px solid #444;
+    border-top: 1px solid #444;
+    border-right: 1px solid #444;
+    border-bottom: none;
+}
+.tree-wrapper .node.open > div > .node-face .icon-folder:after {
+    bottom: -1px;
+    left: 1px;
+    right: -2px;
+    height: 90%;
+    background-color: #fff;
+    border: 1px solid #444;
+    transform: skewX(-22deg);
+}
+
+
+/**********************************************************
+
+    TREE CONTEXT MENU
+
+**********************************************************/
+.tree-wrapper .tree-context-menu {
+    position: fixed;
+    display: block;
+    width: auto;
+    height: auto;
+    border: 1px solid #bcbcbc;
+}
+.tree-wrapper .tree-context-menu ul {
+    display: block;
+    list-style: none;
+    padding: 0;
+}
+.tree-wrapper .tree-context-menu ul li {
+    border-bottom: 1px solid #bcbcbc
+}
+.tree-wrapper .tree-context-menu ul li:last-child { border-bottom: none }
+.tree-wrapper .tree-context-menu button {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 24px;
+    padding: 0 6px;
+    margin: 0;
+    border: none;
+    background-color: #fff;
+}
+.tree-wrapper .tree-context-menu button:hover {
+    background-color: #ebebeb;
+    cursor: pointer;
+}
+.tree-wrapper .tree-context-menu button span {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    line-height: 17px;
+    color:#444;
+    font-weight: 400;
+    text-align: left;
+}
+
+/**********************************************************
+
+    TREE SELECTION BOX
+
+**********************************************************/
+.tree-wrapper .tree-selection-box {
+    display: none;
+    position: fixed;
+    border: 1px dotted #777;
+}
+.tree-wrapper .tree-selection-box.active {
+    display: block;
+}

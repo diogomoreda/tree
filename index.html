@@ -1,0 +1,54 @@
+<!doctype HTML>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tree(beta)</title>
+  <link rel="stylesheet" href="style.css" type="text/css" media="all">
+</head>
+<body>
+    <!--<script type="text/javascript" src="hierarchical-tree.js"></script>-->
+    <script type="text/javascript" src="tree.js"></script>
+    <script type="text/javascript" src="tree-context-menu.js"></script>
+    <script type="text/javascript" src="tree-context-menu-item.js"></script>
+    <script type="text/javascript" src="tree-selection-box.js"></script>
+    <script type="text/javascript" src="tree-tree-ui.js"></script>
+    <script type="text/javascript" src="tree-tree-ui-actions.js"></script>
+    <script type="text/javascript" src="tree-node-ui.js"></script>
+    <script type="text/javascript" src="tree-model-example.js"></script>
+    <script type="text/javascript">
+        Tree.instance = new Tree.Classes.TreeUI(TreeModel);
+
+        /*
+        var Test = {};
+        Test.Module1 = (function(_root) {
+            var privateVar = 'Im Private var 1';
+            this.publicVar = 'Im Public var 1';
+            function _setPrivate(value) { privateVar = value; }
+            function _getPrivate() { return privateVar; }
+            return {
+                get: _getPrivate,
+                set: _setPrivate,
+                publicVar: this.publicVar
+            }
+        })(Test);
+        console.log('');
+        console.log('Test.Module1.privateVar =', Test.Module1.get());
+        console.log('Test.Module1.publicVar =', Test.Module1.publicVar);
+        Test.Module2 = Object.create(Test.Module1);
+        console.log('');
+        console.log('Test.Module2.privateVar =', Test.Module2.get());
+        console.log('Test.Module2.publicVar =', Test.Module2.publicVar);
+        Test.Module2.set('Still Private but now different');
+        Test.Module2.publicVar = 'Also still public';
+        console.log('');
+        console.log('Test.Module2.privateVar =', Test.Module2.get());
+        console.log('Test.Module2.publicVar =', Test.Module2.publicVar);
+        console.log('');
+        console.log('Test.Module1.privateVar =', Test.Module1.get());
+        console.log('Test.Module1.publicVar =', Test.Module1.publicVar);
+        */
+
+    </script>
+</body>
+</html>
