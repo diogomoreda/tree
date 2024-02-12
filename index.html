@@ -5,17 +5,43 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Tree(beta)</title>
   <link rel="stylesheet" href="style.css" type="text/css" media="all">
+  <link rel="stylesheet" href="src/css/tree.css" type="text/css" media="all">
+  <link rel="stylesheet" href="src/modules/model-render.css" type="text/css" media="all">
 </head>
 <body>
-    <!--<script type="text/javascript" src="hierarchical-tree.js"></script>-->
-    <script type="text/javascript" src="tree.js"></script>
-    <script type="text/javascript" src="tree-context-menu.js"></script>
-    <script type="text/javascript" src="tree-context-menu-item.js"></script>
-    <script type="text/javascript" src="tree-selection-box.js"></script>
-    <script type="text/javascript" src="tree-tree-ui.js"></script>
-    <script type="text/javascript" src="tree-tree-ui-actions.js"></script>
-    <script type="text/javascript" src="tree-node-ui.js"></script>
-    <script type="text/javascript" src="tree-model-example.js"></script>
+    <!--
+    <div class="page">
+        <header>
+            <section>
+                <h1>MVC pattern demo</h1>
+                <p>A sugarless client-side javascript implementation of a Model View Controller design pattern, using a filesystem tree like UI and a linear model("unidimensional" array).</p>
+            </section>
+            <section>
+                <h3>Interact with the tree icons and nodes and see the model change:</h3>
+                <p>click on folder icons to expand/collapse</p>
+                <p>right click on node labels to:</p>
+                <ul>
+                    <li>create and delete nodes</li>
+                    <li>change node names</li>
+                    <li>move nodes around using cut/paste</li>
+                    <li>create new nodes based on other nodes using copy/paste</li>
+                </ul>
+            </section>
+        </header>
+        
+    </div>
+    -->
+    <script type="text/javascript" src="src/tree.js"></script>
+    <script type="text/javascript" src="src/tree-constant.js"></script>
+    <script type="text/javascript" src="src/tree-templates.js"></script>
+    <script type="text/javascript" src="src/classes/tree-context-menu.js"></script>
+    <script type="text/javascript" src="src/classes/tree-context-menu-item.js"></script>
+    <script type="text/javascript" src="src/classes/tree-selection-box.js"></script>
+    <script type="text/javascript" src="src/classes/tree-tree-ui.js"></script>
+    <script type="text/javascript" src="src/classes/tree-tree-ui-actions.js"></script>
+    <script type="text/javascript" src="src/classes/tree-node-ui.js"></script>
+    <script type="text/javascript" src="src/models/tree-model-example.js"></script>
+    <script type="text/javascript" src="src/modules/tree-model-renderer.js"></script>
     <script type="text/javascript">
         Tree.instance = new Tree.Classes.TreeUI(TreeModel);
 

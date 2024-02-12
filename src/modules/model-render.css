@@ -1,0 +1,80 @@
+.tree-model-render * { box-sizing: border-box }
+
+.tree-model-render {
+    position: relative;
+    box-sizing: border-box;
+    display: flex;
+    width: auto;
+    flex: 1;
+    height: 100vh;
+}
+
+.tree-model-render .model-wrapper {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}
+
+.tree-model-render ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.tree-model-render li {
+    min-width: 0;
+    overflow: hidden;
+    line-height: 13px;
+}
+
+.tree-model-render .model-wrapper > li {
+    margin: 7px;
+}
+.tree-model-render .model-wrapper > li > span:first-child,
+.tree-model-render .model-wrapper > li > span:last-child {
+    margin-left: 7px;
+}
+
+.tree-model-render .model-wrapper > li > ul.arr {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    padding: 0;
+    margin: 0;
+}
+
+.tree-model-render .model-wrapper > li > ul.arr > li {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 7px;
+    max-width: 200px;
+}
+.tree-model-render li li {
+    padding-left: 30px;
+}
+.tree-model-render span {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    line-height: 12px;
+}
+
+.tree-model-render span.key {
+    color:#0000FF
+}
+.tree-model-render span.marker {
+    color: #999999
+}
+.tree-model-render span.value {
+    color: #3F0000;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.tree-model-render span:nth-child(3) {
+    margin-left: 12px;
+}
