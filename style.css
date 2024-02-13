@@ -9,3 +9,6 @@ html, html body {
     border: none;
 }
 
+.page {
+    max-width: 320px
+}

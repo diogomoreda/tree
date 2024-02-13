@@ -93,6 +93,7 @@ Tree.Classes.TreeUI.prototype.fillClipboard = function() {
 
 // public
 Tree.Classes.TreeUI.prototype.cutItems = function() {
+    this.clearModelCutState();
     this.actionFlags.isCutOperation = true;
     this.fillClipboard();
     this.buildModelUI();
@@ -135,7 +136,7 @@ Tree.Classes.TreeUI.prototype.pasteItems = function(parentNodeUI) {
         }
         if (nodeParentFound) continue;
         partialModel[i].parent = parentNodeUI ? parentNodeUI.model.id : null;
-        if (parentNodeUI) parentNodeUI.model.children.push(partialModel[i].id);
+        if (parentNodeUI && (!parentNodeUI.model.children.includes(partialModel[i].id))) parentNodeUI.model.children.push(partialModel[i].id);
     }
     this.clearModelSelectedNodes();
     // join the clipboard extracted model to the existing model

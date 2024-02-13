@@ -78,3 +78,15 @@
 .tree-model-render span:nth-child(3) {
     margin-left: 12px;
 }
+
+.tree-model-render .change-flag {
+    
+    border: 1px solid #33f;
+    background-color: #fff;
+    
+}
+
+.tree-model-render .change-flag span.key,
+.tree-model-render .change-flag span.value {
+    font-weight: bold;   
+}
