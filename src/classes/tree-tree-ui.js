@@ -10,7 +10,7 @@ Tree.Classes.TreeUI = function(treeModel) {
     this.selectionBox = null;
     this.actionFlags = {
         editNodeId: null,
-        removeOnPaste: false,
+        isCutOperation: false,
     };
     this.refs = null;
     this.buildModelUI();
@@ -87,7 +87,7 @@ Tree.Classes.TreeUI.prototype.onClick = function(e) {
     e.preventDefault();
 }
 
-
+// context menu on tree root
 Tree.Classes.TreeUI.prototype.openContextMenu = function(e, nodeUI) {
     if (this.contextMenu) this.closeContextMenu();
     this.contextMenu = new Tree.ContextMenu(this, nodeUI);
@@ -103,7 +103,7 @@ Tree.Classes.TreeUI.prototype.closeContextMenu = function() {
 }
 
 
-
+// 
 Tree.Classes.TreeUI.prototype.getNodeUI = function(id) {
     for (var i=0; i<this.nodeUIs.length; i++) 
         if (this.nodeUIs[i].model.id === id) return this.nodeUIs[i]; 
@@ -158,10 +158,33 @@ Tree.Classes.TreeUI.prototype.getNodeFolder = function(nodeUI) {
 }
 
 
+Tree.Classes.TreeUI.prototype.getNodeSelectionRoot = function(nodeUI) {
+    var selectedNodeUI = nodeUI;
+    var targetNodeUI = nodeUI;
+    while (targetNodeUI.model.parent) {
+        var parentNodeUI = this.getNodeUI(targetNodeUI.model.parent);
+        if (parentNodeUI.model.selected) {
+            selectedNodeUI.model.selected = false;
+            selectedNodeUI = parentNodeUI;
+        }
+        targetNodeUI = parentNodeUI;
+    }
+    return selectedNodeUI;
+}
+
+
+Tree.Classes.TreeUI.prototype.getUsedNodeIds = function() {
+    var usedNodeIds = [];
+    for (var i=0; i<this.nodeUIs.length; i++)
+        usedNodeIds.push(Tree.idToInt(this.nodeUIs[i].model.id));
+    return usedNodeIds.sort((a, b) => { return a - b });
+}
+
+
 Tree.Classes.TreeUI.prototype.getNextAvailableNodeId = function() {
     var idCtr = 1;
-    while (this.getNodeUI(Tree.intToId(idCtr)) !== null && idCtr < Math.pow(2, 8)) idCtr++;
-    return idCtr == Math.pow(2, 8) ? null : Tree.intToId(idCtr);
+    while (this.getNodeUI(Tree.intToId(idCtr)) !== null && idCtr < Math.pow(2, 64)) idCtr++;
+    return idCtr == Math.pow(2, 64) ? null : Tree.intToId(idCtr);
 }
 
 
@@ -169,6 +192,14 @@ Tree.Classes.TreeUI.prototype.clearModelSelectedNodes = function() {
     for (var i=0; i<this.model.length; i++) {
         this.model[i].selected = false;
         this.model[i].highlighted = false;
+    } 
+}
+
+
+Tree.Classes.TreeUI.prototype.clearModelCutState = function() {
+    for (var i=0; i<this.model.length; i++) {
+        this.model[i].highlighted = false;
+        this.model[i].disabled = false;
     } 
 }
 

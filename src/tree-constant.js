@@ -1,5 +1,7 @@
 Tree.Constant = Tree.Constant || {
 
+    MaxIdValue: Math.pow(128, 2) - 1, 
+
     TreeOptions: {
         disableMultiselect: false,
         disableContextMenu: false,

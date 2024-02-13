@@ -25,7 +25,7 @@ const TreeModel = [
     { 
         type: 0,
         id: "0000-0001",
-        name: "I contain children",
+        name: "root folder at level 0",
         extension: null,
         created: "30-11-2023T00:01.00",
         modified: "30-11-2023T00:01.00",
@@ -46,7 +46,7 @@ const TreeModel = [
     { 
         type: 1,
         id: "0000-0002",
-        name: "file placed in tree root",
+        name: "root file at level 0",
         extension: null,
         created: "30-11-2023T00:01.00",
         modified: "30-11-2023T00:01.00",
@@ -62,7 +62,7 @@ const TreeModel = [
     { 
         type: 0,
         id: "0000-0003",
-        name: "child folder 1",
+        name: "folder at level 1",
         extension: null,
         created: "30-11-2023T00:01.00",
         modified: "30-11-2023T00:01.00",
@@ -80,7 +80,7 @@ const TreeModel = [
     { 
         type: 0,
         id: "0000-0004",
-        name: "child folder 2",
+        name: "random empty folder at level 1",
         extension: null,
         created: "30-11-2023T00:01.00",
         modified: "30-11-2023T00:01.00",
@@ -96,7 +96,7 @@ const TreeModel = [
     { 
         type: 1,
         id: "0000-0005",
-        name: "child file 1",
+        name: "level 1 random file 1",
         extension: null,
         created: "30-11-2023T00:01.00",
         modified: "30-11-2023T00:01.00",
@@ -112,7 +112,7 @@ const TreeModel = [
     { 
         type: 1,
         id: "0000-0006",
-        name: "child file 2",
+        name: "level 1 random file 2",
         extension: null,
         created: "30-11-2023T00:01.00",
         modified: "30-11-2023T00:01.00",
@@ -128,7 +128,7 @@ const TreeModel = [
     { 
         type: 0,
         id: "0000-0007",
-        name: "folder inside a folder",
+        name: "folder at level 2",
         extension: null,
         created: "30-11-2023T00:01.00",
         modified: "30-11-2023T00:01.00",
@@ -146,7 +146,7 @@ const TreeModel = [
     { 
         type: 1,
         id: "0000-0008",
-        name: "file with a big name to test overflow purposes and other things",
+        name: "file at level 3",
         extension: null,
         created: "30-11-2023T00:01.00",
         modified: "30-11-2023T00:01.00",
