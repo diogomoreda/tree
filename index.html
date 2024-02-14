@@ -1,81 +1,73 @@
 <!doctype HTML>
 <html>
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Tree(beta)</title>
-  <link rel="stylesheet" href="style.css" type="text/css" media="all">
-  <link rel="stylesheet" href="src/css/tree.css" type="text/css" media="all">
-  <link rel="stylesheet" href="src/modules/model-render.css" type="text/css" media="all">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tree(beta)</title>
+    <link rel="stylesheet" href="style.css" type="text/css" media="all">
+    <link rel="stylesheet" href="src/css/tree.css" type="text/css" media="all">
+    <link rel="stylesheet" href="src/modules/model-render.css" type="text/css" media="all">
 </head>
 <body>
-    
-    <div class="page">
+    <div id="intro">
         <header>
-            <section>
-                <h1>MVC pattern demo</h1>
-                <p>A sugarless client-side javascript implementation of a Model View Controller design pattern, using a filesystem tree like UI and a linear model("unidimensional" array).</p>
-            </section>
-            <section>
-                <h3>Interact with the tree icons and nodes and see the model change:</h3>
-                <p>click on folder icons to expand/collapse</p>
-                <p>right click on node labels to:</p>
-                <ul>
-                    <li>create and delete nodes</li>
-                    <li>change node names</li>
-                    <li>move nodes around using cut/paste</li>
-                    <li>create new nodes based on other nodes using copy/paste</li>
-                </ul>
-            </section>
+            <h2>MVC pattern demo</h2>
+            <p>A sugar free client-side javascript example of a Model View Controller design pattern, implementing a file system tree like UI, drawn from a one-dimensional array model.</p>
         </header>
-        
+        <section>
+            <h3>Interact with the tree icons and nodes and see the model change:</h3>
+            <p>click on <strong>folder icons</strong> to expand/collapse</p>
+            <p>RIGHT click on <strong>node labels</strong> to:</p>
+            <ul>
+                <li>create and delete nodes</li>
+                <li>change node names</li>
+                <li>move nodes around using cut/paste</li>
+                <li>create new nodes based on other nodes using copy/paste</li>
+            </ul>
+            <p>See the model array on the right side change according to your interaction. The latest value changes are highlighted.</p>
+        </section>
+        <section>
+            <h4>Todo:</h4>
+            <ul>
+                <li>sorting options</li>
+                <li>drag and drop cut/paste</li>
+                <li>multiple selection</li>
+            </ul>
+        </section>
+        <button id="button-page"></button>
     </div>
-    
+    <!-- load tree scripts -->
     <script type="text/javascript" src="src/tree.js"></script>
     <script type="text/javascript" src="src/tree-constant.js"></script>
     <script type="text/javascript" src="src/tree-templates.js"></script>
     <script type="text/javascript" src="src/classes/tree-context-menu.js"></script>
     <script type="text/javascript" src="src/classes/tree-context-menu-item.js"></script>
-    <script type="text/javascript" src="src/classes/tree-selection-box.js"></script>
     <script type="text/javascript" src="src/classes/tree-tree-ui.js"></script>
     <script type="text/javascript" src="src/classes/tree-tree-ui-actions.js"></script>
     <script type="text/javascript" src="src/classes/tree-node-ui.js"></script>
     <script type="text/javascript" src="src/models/tree-model-example.js"></script>
     <script type="text/javascript" src="src/modules/tree-model-renderer.js"></script>
     <script type="text/javascript">
-        Tree.instance = new Tree.Classes.TreeUI(TreeModel);
-
-        //console.log( (Math.pow(8, 2) - 1).toString(16) )
-        /*
-        var Test = {};
-        Test.Module1 = (function(_root) {
-            var privateVar = 'Im Private var 1';
-            this.publicVar = 'Im Public var 1';
-            function _setPrivate(value) { privateVar = value; }
-            function _getPrivate() { return privateVar; }
-            return {
-                get: _getPrivate,
-                set: _setPrivate,
-                publicVar: this.publicVar
+        // handle this demo user interaction
+        (function() {
+            var state = 1;
+            var stateClass = ['hide', ''];
+            var stateStr = [
+                'click to display help',
+                'click to hide this intro'
+            ]
+            var intro = document.getElementById('intro');
+            intro.className = stateClass[state];
+            var btn =  document.getElementById('button-page');
+            btn.title = stateStr[state];
+            btn.onclick = function(e) {
+                state = (state + 1) % 2;
+                intro.className = stateClass[state];
+                this.title = stateStr[state];
             }
-        })(Test);
-        console.log('');
-        console.log('Test.Module1.privateVar =', Test.Module1.get());
-        console.log('Test.Module1.publicVar =', Test.Module1.publicVar);
-        Test.Module2 = Object.create(Test.Module1);
-        console.log('');
-        console.log('Test.Module2.privateVar =', Test.Module2.get());
-        console.log('Test.Module2.publicVar =', Test.Module2.publicVar);
-        Test.Module2.set('Still Private but now different');
-        Test.Module2.publicVar = 'Also still public';
-        console.log('');
-        console.log('Test.Module2.privateVar =', Test.Module2.get());
-        console.log('Test.Module2.publicVar =', Test.Module2.publicVar);
-        console.log('');
-        console.log('Test.Module1.privateVar =', Test.Module1.get());
-        console.log('Test.Module1.publicVar =', Test.Module1.publicVar);
-        */
-
+        })()
+        // create the tree app
+        Tree.instance = new Tree.Classes.TreeUI(TreeModel);
     </script>
 </body>
 </html>
