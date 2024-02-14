@@ -1,6 +1,6 @@
 Tree.Constant = Tree.Constant || {
 
-    MaxIdValue: Math.pow(128, 2) - 1, 
+    MaxIdValue: 255, 
 
     TreeOptions: {
         disableMultiselect: false,

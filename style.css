@@ -1,14 +1,66 @@
 html, html body {
-    box-sizing: border-box;
-    display: flex;
-    flex-flow: row;
-    width: 100%;
-    min-height: 100vh;
     padding: 0;
     margin: 0;
     border: none;
 }
 
-.page {
-    max-width: 320px
+body, body * {
+    box-sizing: border-box;
 }
+
+body {
+    position: relative;
+    display: flex;
+    flex-flow: row;
+    width: 100%;
+    min-height: 100vh;
+    overflow: hidden;
+
+    /*font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-family: 'Times New Roman', Times, serif;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-family: 'Courier New', Courier, monospace;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-family:Georgia, 'Times New Roman', Times, serif;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;*/
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#intro {
+    display: block;
+    width: 320px;
+    height: 100%;
+    padding: 12px;
+    margin-left: 0px;
+    transition: margin-left 0.5s ease-in;
+}
+#intro.hide {
+    margin-left: -320px;
+}
+
+#button-page {
+    position: fixed;
+    width: 32px;
+    height: 32px;
+    bottom: 24px;
+    left: 24px;
+    cursor: pointer;
+}
+
+#button-page:before,
+#button-page:after {
+    content: "";
+    display: block;
+    width: 10px;
+    height: 10px;
+    background-color: #777;
+    transition: transform 0.5s ease-out;
+}
+#button-page:before { transform: skew(-45deg, 0deg) }
+#button-page:after {  transform: skew(45deg, 0deg) }
+.hide #button-page:before { transform: skew(45deg, 0deg) }
+.hide #button-page:after {  transform: skew(-45deg, 0deg) }

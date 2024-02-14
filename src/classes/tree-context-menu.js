@@ -1,8 +1,9 @@
-Tree.ContextMenu = function(treeUI, nodeUI) {
-// context menu on tree area
-// context menu on folder
-// context menu on file
+// 3 flavours of context menu
+// - context menu on tree area (root)
+// - context menu on folder
+// - context menu on file
 
+Tree.ContextMenu = function(treeUI, nodeUI) {
     this.treeUI = treeUI;
     this.nodeUI = nodeUI || null;
     this.items = null;
@@ -26,11 +27,8 @@ Tree.ContextMenu.prototype.buildModelUI = function() {
 
 
 // setup context menu mouse event
-Tree.ContextMenu.prototype.itemClick = function(e, action) {
-    if (this.treeUI[action]) {
-        //this.treeUI.clearModelSelectedNodes();
-        this.treeUI[action](this.nodeUI);
-    }
+Tree.ContextMenu.prototype.onItemClick = function(e, action) {
+    if (this.treeUI[action]) this.treeUI[action](this.nodeUI);
 }
 
 

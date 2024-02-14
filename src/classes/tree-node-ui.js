@@ -3,11 +3,16 @@ Tree.Classes.NodeUI = function(treeUI, nodeModel) {
     this.model = nodeModel;
     this.refs = null;
     this.buildModelUI();
-    
 }
 
 
 Tree.Classes.NodeUI.prototype.buildModelUI = function() {
+    this.renderUI();
+    this.registerEvents();
+}
+
+
+Tree.Classes.NodeUI.prototype.renderUI = function() {
     this.refs = Tree.MarkupFactory.build(Tree.Templates.node[this.model.type]);
     this.refs.label.innerHTML = this.model.name;
     this.refs.labelEditor.value = this.model.name;
@@ -22,33 +27,32 @@ Tree.Classes.NodeUI.prototype.buildModelUI = function() {
         Tree.addClass(this.refs.root, 'faded');
         return;
     }
-    // register mouse events
-    this.refs.btnIcon.onclick = this.onIconClick.bind(this);
-    this.refs.btnLabel.onclick = this.onLabelClick.bind(this);
-    this.refs.btnLabel.oncontextmenu = this.onLabelClick.bind(this);
-    
-    this.refs.labelEditor.onclick = function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-    }.bind(this);
-
-    this.refs.labelEditor.onkeydown = function(e) {
-        if (this.model.edit && e.which == 13) {
-            this.treeUI.finishEdit(); 
-            e.stopPropagation();
-            e.preventDefault();
-        }
-    }.bind(this);
 }
 
 
-// Mouse Events
+Tree.Classes.NodeUI.prototype.registerEvents = function() {
+    this.refs.btnIcon.onmousedown = this.onIconClick.bind(this);
+    this.refs.btnLabel.onmousedown = this.onLabelClick.bind(this);
+    this.refs.btnLabel.oncontextmenu = Tree.preventDefaultEvent;
+    this.refs.labelEditor.onmousedown = this.onLabelEditorClick.bind(this);
+    if (this.model.edit) this.refs.labelEditor.onkeydown = this.onkeydown.bind(this);
+}
+
+
+///////////////////////////////////////////////////////////////
+//
+//  UI EVENTS
+//
+///////////////////////////////////////////////////////////////
 Tree.Classes.NodeUI.prototype.onIconClick = function(e) {
     if (this.treeUI.edit || this.treeUI.busy) return;
-    if (e.which === 1) { // LEFT mouse button
+    // LEFT mouse button
+    if (e.which === 1) { 
         if (this.model.type === 0) this.model.open = !this.model.open;
         this.treeUI.buildModelUI();
-    } else if (e.which === 3) { // RIGHT mouse button
+    } 
+    // RIGHT mouse button
+    else if (e.which === 3) { 
         this.treeUI.openContextMenu(e, this);
     }
     e.stopPropagation();
@@ -58,27 +62,33 @@ Tree.Classes.NodeUI.prototype.onIconClick = function(e) {
 
 Tree.Classes.NodeUI.prototype.onLabelClick = function(e) {
     if (this.treeUI.edit || this.treeUI.busy) return;
-    
+    // ANY mouse button
     this.treeUI.clearModelSelectedNodes();
-    //if (this.model.type === 0) this.model.open = true;
     this.model.selected = true;
     this.treeUI.buildModelUI();
-
-    if (e.which === 3) { // RIGHT mouse button
+    // RIGHT mouse button
+    if (e.which === 3) { 
         this.treeUI.openContextMenu(e, this);
     }
-
     e.stopPropagation();
     e.preventDefault();
 }
 
 
-Tree.Classes.NodeUI.prototype.toggleFolder = function(e) {
-    
-    
-} 
+Tree.Classes.NodeUI.prototype.onkeydown = function(e) {
+    if (e.which == 13) this.treeUI.finishEdit();
+}
 
 
+Tree.Classes.NodeUI.prototype.onLabelEditorClick = function(e) {
+    e.stopPropagation();
+}
+
+///////////////////////////////////////////////////////////////
+//
+//  NODE UI - OPERATIONS
+//
+///////////////////////////////////////////////////////////////
 Tree.Classes.NodeUI.prototype.select = function() {
     this.model.selected = true;
 }

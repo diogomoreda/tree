@@ -17,20 +17,23 @@ Tree.Classes.TreeUI = function(treeModel) {
 }
 
 
-Tree.Classes.TreeUI.prototype.buildNodeUIs = function() {
-    this.nodeUIs = [];
-    for (var i=0; i<this.model.length; i++)
-        this.nodeUIs.push(new Tree.Classes.NodeUI(this, this.model[i]));    
+Tree.Classes.TreeUI.prototype.buildModelUI = function() {
+    this.renderUI();
+    this.registerEvents();
 }
 
 
-
-Tree.Classes.TreeUI.prototype.buildModelUI = function() {
+Tree.Classes.TreeUI.prototype.renderUI = function() {
+     
     if (this.refs && (this.refs.root)) document.body.removeChild(this.refs.root);
-    this.contextMenu = null; 
     this.refs = Tree.MarkupFactory.build(Tree.Templates.tree);
     
-    this.buildNodeUIs();
+    this.contextMenu = null;
+
+    this.nodeUIs = [];
+    for (var i=0; i<this.model.length; i++)
+        this.nodeUIs.push(new Tree.Classes.NodeUI(this, this.model[i])); 
+
     for (var i=0; i<this.nodeUIs.length; i++) {
         if (!this.nodeUIs[i].model.parent) {
             this.refs.children.appendChild(this.nodeUIs[i].refs.root);
@@ -39,33 +42,26 @@ Tree.Classes.TreeUI.prototype.buildModelUI = function() {
             if (parentNodeUI) parentNodeUI.refs.children.appendChild(this.nodeUIs[i].refs.root);
         }
     }
-    //this.selectionBox = new Tree.Classes.SelectionBox(this);
-    document.body.appendChild(this.refs.root);
 
-    Tree.modelRenderer.render(this.model, 'TreeModel', ['created', 'modified', 'extension', 'hidden']);
-    return;
-    // register mouse events
-    if (!this.edit) {
-        this.refs.root.oncontextmenu = this.onClick.bind(this);
-        this.refs.root.onmousedown = this.onClick.bind(this);
-    }
-    if (this.edit) {
-        this.refs.root.oncontextmenu = this.onClickEditMode.bind(this);
-        this.refs.root.onmousedown = this.onClickEditMode.bind(this);
-        if (this.actionFlags.editNodeId) this.focusNode(this.actionFlags.editNodeId);
-    }
     
+    document.body.appendChild(this.refs.root);
+    Tree.modelRenderer.render(this.model, 'TreeModel', ['created', 'extension', 'hidden']);
+    if (this.actionFlags.editNodeId) this.focusNode(this.actionFlags.editNodeId);
 }
 
 
-Tree.Classes.TreeUI.prototype.focusNode = function(id) {
-    var nodeUI = this.getNodeUI(id);
-    nodeUI.refs.labelEditor.focus();
-    nodeUI.refs.labelEditor.select();
+Tree.Classes.TreeUI.prototype.registerEvents = function() {
+    this.refs.root.oncontextmenu = Tree.preventDefaultEvent;
+    if (!this.edit) this.refs.root.onmousedown = this.onClick.bind(this);
+    else this.refs.root.onmousedown = this.onClickEditMode.bind(this);
 }
 
 
-// Mouse Events
+///////////////////////////////////////////////////////////////
+//
+//  UI EVENTS
+//
+///////////////////////////////////////////////////////////////
 Tree.Classes.TreeUI.prototype.onClickEditMode = function(e) {
     this.finishEdit();
     e.stopPropagation();
@@ -74,12 +70,11 @@ Tree.Classes.TreeUI.prototype.onClickEditMode = function(e) {
 
 
 Tree.Classes.TreeUI.prototype.onClick = function(e) {
-    return;
+    //console.log('TreeUI.onclick');
     if (e.which === 1) { // LEFT mouse button
         if (this.contextMenu) this.closeContextMenu();
         this.clearModelSelectedNodes();
         this.buildModelUI();
-        //this.selectionBox.startSelection(e);
     } else if (e.which === 3) { // RIGHT mouse button
         this.openContextMenu(e, null);
     }
@@ -87,7 +82,13 @@ Tree.Classes.TreeUI.prototype.onClick = function(e) {
     e.preventDefault();
 }
 
-// context menu on tree root
+
+
+///////////////////////////////////////////////////////////////
+//
+//  CONTEXT MENU
+//
+///////////////////////////////////////////////////////////////
 Tree.Classes.TreeUI.prototype.openContextMenu = function(e, nodeUI) {
     if (this.contextMenu) this.closeContextMenu();
     this.contextMenu = new Tree.ContextMenu(this, nodeUI);
@@ -103,18 +104,15 @@ Tree.Classes.TreeUI.prototype.closeContextMenu = function() {
 }
 
 
-// 
+///////////////////////////////////////////////////////////////
+//
+//  MODEL LOOKUP METHODS
+//
+///////////////////////////////////////////////////////////////
 Tree.Classes.TreeUI.prototype.getNodeUI = function(id) {
     for (var i=0; i<this.nodeUIs.length; i++) 
         if (this.nodeUIs[i].model.id === id) return this.nodeUIs[i]; 
     return null;
-}
-
-
-Tree.Classes.TreeUI.prototype.getNodeUIModelIndex = function(id) {
-    for (var i=0; i<this.model.length; i++) 
-        if (this.model[i].id == id) return i; 
-    return -1;
 }
 
 
@@ -128,6 +126,16 @@ Tree.Classes.TreeUI.prototype.getNodeUIChildren = function(nodeUI) {
         }
     }
     return nodeChildren;
+}
+
+
+Tree.Classes.TreeUI.prototype.getNodeFolder = function(nodeUI) {
+    var targetNodeUI = nodeUI;
+    if (targetNodeUI.model.type !== 0 && targetNodeUI.model.parent === null) return null;
+    while (targetNodeUI.model.type !== 0 && targetNodeUI.model.parent) {
+        targetNodeUI = this.getNodeUI(targetNodeUI.model.parent);
+    }
+    return targetNodeUI;
 }
 
 
@@ -148,16 +156,19 @@ Tree.Classes.TreeUI.prototype.getNodePath = function(nodeUI) {
 }
 
 
-Tree.Classes.TreeUI.prototype.getNodeFolder = function(nodeUI) {
-    var targetNodeUI = nodeUI;
-    if (targetNodeUI.model.type !== 0 && targetNodeUI.model.parent === null) return null;
-    while (targetNodeUI.model.type !== 0 && targetNodeUI.model.parent) {
-        targetNodeUI = this.getNodeUI(targetNodeUI.model.parent);
-    }
-    return targetNodeUI;
+Tree.Classes.TreeUI.prototype.getUsedNodeIds = function() {
+    var usedNodeIds = [];
+    for (var i=0; i<this.nodeUIs.length; i++)
+        usedNodeIds.push(Tree.idToInt(this.nodeUIs[i].model.id));
+    return usedNodeIds.sort((a, b) => { return a - b });
 }
 
 
+///////////////////////////////////////////////////////////////
+//
+//  MODEL CHANGING METHODS
+//
+///////////////////////////////////////////////////////////////
 Tree.Classes.TreeUI.prototype.getNodeSelectionRoot = function(nodeUI) {
     var selectedNodeUI = nodeUI;
     var targetNodeUI = nodeUI;
@@ -173,18 +184,10 @@ Tree.Classes.TreeUI.prototype.getNodeSelectionRoot = function(nodeUI) {
 }
 
 
-Tree.Classes.TreeUI.prototype.getUsedNodeIds = function() {
-    var usedNodeIds = [];
-    for (var i=0; i<this.nodeUIs.length; i++)
-        usedNodeIds.push(Tree.idToInt(this.nodeUIs[i].model.id));
-    return usedNodeIds.sort((a, b) => { return a - b });
-}
-
-
-Tree.Classes.TreeUI.prototype.getNextAvailableNodeId = function() {
-    var idCtr = 1;
-    while (this.getNodeUI(Tree.intToId(idCtr)) !== null && idCtr < Math.pow(2, 64)) idCtr++;
-    return idCtr == Math.pow(2, 64) ? null : Tree.intToId(idCtr);
+Tree.Classes.TreeUI.prototype.focusNode = function(id) {
+    var nodeUI = this.getNodeUI(id);
+    nodeUI.refs.labelEditor.focus();
+    nodeUI.refs.labelEditor.select();
 }
 
 
@@ -204,6 +207,11 @@ Tree.Classes.TreeUI.prototype.clearModelCutState = function() {
 }
 
 
+///////////////////////////////////////////////////////////////
+//
+//  MODEL CHANGING METHODS
+//
+///////////////////////////////////////////////////////////////
 Tree.Classes.TreeUI.prototype.selectFileNode = function(nodeUI) {
     this.onFileNodeSelect(nodeUI).then(function(response) {
         for (var i=0; i<this.nodeUIs.length; i++) {
@@ -222,7 +230,3 @@ Tree.Classes.TreeUI.prototype.onFileNodeSelect = function(nodeUI) {
         resolve(true)
     });
 }
-
-
-
-

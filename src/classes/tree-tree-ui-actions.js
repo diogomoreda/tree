@@ -4,7 +4,11 @@ Tree.Classes.TreeUI.prototype.actions = function() {}
 Tree.Classes.TreeUI.prototype.addItem = function(parentNodeUI, type) {
     var parentId = !parentNodeUI ? null : parentNodeUI.model.id;
     
-    var newNodeId = this.getNextAvailableNodeId();
+    var usedNodeIds = this.getUsedNodeIds();
+    var idCtr = 1;
+    while (usedNodeIds.includes(idCtr)) idCtr++;
+    var newNodeId = Tree.intToId(idCtr);
+
     var node = Tree.createNode(
         type || 0, 
         newNodeId, 

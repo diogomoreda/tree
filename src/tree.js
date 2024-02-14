@@ -78,6 +78,12 @@ Tree.idToInt = function(id) {
     return parseInt(id, 16);
 }
 
+// this is where events come to die!
+Tree.preventDefaultEvent = function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+}
+
 
 Tree.MarkupFactory = (function() {
     var elementWrapper = document.createElement('div');
