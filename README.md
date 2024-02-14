@@ -1,7 +1,8 @@
 ## MVC pattern demo
 
 A sugar free(&lt;ES6) client-side javascript example of a Model View Controller design pattern, implementing a file system tree like UI, drawn from a one-dimensional array model.
-![tree-demo-small](https://github.com/diogomoreda/tree/assets/6032350/e0f50ce2-d052-4d34-b2df-ebad0f5858d6)
+
+![tree-demo-small-2](https://github.com/diogomoreda/tree/assets/6032350/5806f0c5-f18c-450a-a723-71734c99826a)
 
 
 ### USAGE
