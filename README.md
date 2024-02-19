@@ -20,7 +20,7 @@ RIGHT click on **node labels** to:
 On the right hand side, you can see the data model array change according to your interaction. The latest value changes are highlighted.
 
 ### TRY ME
-You can simply clone this repository and run this demo in your browser by opening the index.html located in the repo root folder (it's all client side).
+<https://diogomoreda.github.io/tree/>
 
 #### Known to work in latest:
 - Chrome
